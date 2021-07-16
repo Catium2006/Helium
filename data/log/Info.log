@@ -91,3 +91,11 @@
 2021-07-06 12:11:31/[Info] Sending to MyClient ...
 2021-07-06 12:11:31/[Info] Succeeded
 2021-07-06 12:11:31/[Info] Get a new client: MyClient
+2021-07-08 11:25:49/[Info] Accept a client: /127.0.0.1
+2021-07-08 11:25:49/[Info] Get a client: MyClient
+2021-07-08 11:27:07/[Info] Accept a client: /127.0.0.1
+2021-07-08 11:27:08/[Info] Get a client: MyClient
+2021-07-08 11:28:49/[Info] Accept a client: /127.0.0.1
+2021-07-08 11:28:49/[Info] Get a client: MyClient
+2021-07-08 11:38:18/[Info] Accept a client: /127.0.0.1
+2021-07-08 11:38:18/[Info] Get a client: MyClient

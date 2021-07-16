@@ -12,3 +12,13 @@
 2021-07-06 12:06:46/[Client] Recieve from client {"ClientName": "MyClient" , "Platform": "JVM" , "SystemInfo": "Ubuntu Server 20.04" , "Timestamp": "114514" , "API": "QQ" , "Operation":  "ping"}
 2021-07-06 12:10:26/[Client] Recieve from client {"ClientName": "MyClient" , "Platform": "JVM" , "SystemInfo": "Ubuntu Server 20.04" , "Timestamp": "114514" , "API": "QQ" , "Operation":  "ping"}
 2021-07-06 12:11:31/[Client] Recieve from client {"ClientName": "MyClient" , "Platform": "JVM" , "SystemInfo": "Ubuntu Server 20.04" , "Timestamp": "114514" , "API": "QQ" , "Operation":  "ping"}
+2021-07-08 11:25:49/[Client] Recieve from client {"ClientName": "MyClient" , "Platform": "JVM" , "SystemInfo": "Ubuntu Server 20.04" , "Timestamp": "114514" , "API": "QQ" , "Operation":  "å‘ƒå‘ƒå‘ƒå•Šå•Šå•Šå“¼å“¼å“¼å—¯å—¯å—¯å—¯å—¯"}
+2021-07-08 11:27:08/[Client] Recieve from client {"ClientName": "MyClient" , "Platform": "JVM" , "SystemInfo": "Ubuntu Server 20.04" , "Timestamp": "114514" , "API": "QQ" , "Operation":  "å‘ƒå‘ƒå‘ƒå•Šå•Šå•Šå“¼å“¼å“¼å—¯å—¯å—¯å—¯å—¯"}
+2021-07-08 11:27:08/[Client] Sending to MyClient ...
+2021-07-08 11:27:08/[Client] Succeeded
+2021-07-08 11:28:49/[Client] Recieve from client {"ClientName": "MyClient" , "Platform": "JVM" , "SystemInfo": "Ubuntu Server 20.04" , "Timestamp": "114514" , "API": "QQ" , "Operation":  "ßÀßÀßÀ°¡°¡°¡ºßºßºßàÅàÅàÅàÅàÅ"}
+2021-07-08 11:28:49/[Client] Sending to MyClient ...
+2021-07-08 11:28:49/[Client] Succeeded
+2021-07-08 11:38:18/[Client] Recieve from client {"ClientName": "MyClient" , "Platform": "JVM" , "SystemInfo": "Ubuntu Server 20.04" , "Timestamp": "114514" , "API": "QQ" , "Operation":  "ßÀßÀßÀ°¡°¡°¡ºßºßºßàÅàÅàÅàÅàÅ"}
+2021-07-08 11:38:18/[Client] Sending to MyClient ...
+2021-07-08 11:38:18/[Client] Succeeded

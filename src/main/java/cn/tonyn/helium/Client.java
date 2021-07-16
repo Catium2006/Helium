@@ -16,7 +16,9 @@ public class Client {
     public String SystemInfo;
     public long Timestamp;
     public String API;
-    public String Operation;
+    public String OperationType;
+    public String Content;
+    public int OperationMark;
 
     public Client(Socket socket){
         Client_Socket = socket;
@@ -42,16 +44,19 @@ public class Client {
 
     /**
      * get informations from json
-     * @param str
+     * @param json
      */
-    private void getInfo(String str) {
-        JSONObject jsonObject = JSON.parseObject(str);
+    private void getInfo(String json) {
+        JSONObject jsonObject = JSON.parseObject(json);
         NAME = jsonObject.getString("ClientName");
         Platform = jsonObject.getString("Platform");
         SystemInfo = jsonObject.getString("SystemInfo");
         Timestamp = jsonObject.getLong("Timestamp");
         API = jsonObject.getString("API");
-        Operation = jsonObject.getString("Operation");
+        OperationType = jsonObject.getString("OperationType");
+        Content = jsonObject.getString("Content");
+        OperationMark = jsonObject.getInteger("OperationMark");
+
 
     }
 
@@ -61,7 +66,7 @@ public class Client {
      * @return
      */
     boolean send(String json){
-        Logger.log("Sending to "+NAME+" ...","Client");
+        Logger.log("Try to sending to "+NAME+" ...","Client");
         try{
             OutputStream os = Client_Socket.getOutputStream();
             OutputStreamWriter osw = new OutputStreamWriter(os);
@@ -71,12 +76,12 @@ public class Client {
             bw.flush();
             bw.close();
 
-            Logger.log("Succeeded","Client");
+            Logger.log("Succeeded in sending to "+NAME+": "+json,"Client");
             return true;
         }catch (IOException e){
             e.printStackTrace();
             Logger.log(e.getMessage(),"IOException");
-            Logger.log("Failed");
+            Logger.log("Failed in sending to "+NAME);
             return false;
         }
     }

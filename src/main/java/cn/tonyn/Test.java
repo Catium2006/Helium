@@ -7,23 +7,18 @@ import java.net.Socket;
 public class Test {
     public static void main(String[] args){
         try{
-            String s="{\"ClientName\": \"MyClient\" , \"Platform\": \"JVM\" , \"SystemInfo\": \"Ubuntu Server 20.04\" , \"Timestamp\": \"114514\" , \"API\": \"QQ\" , \"Operation\":  \"ping\"}";
+            String s="{\"ClientName\": \"MyClient\" , \"Platform\": \"JVM\" , \"SystemInfo\": \"Ubuntu Server 20.04\" , \"Timestamp\": \"114514\" , \"API\": \"QQ\" , \"Operation\":  \"ßÀßÀßÀ°¡°¡°¡ºßºßºßàÅàÅàÅàÅàÅ\"}";
             Socket socket = new Socket("localhost",10060);
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()),s.length());
             bw.write(s);
             bw.newLine();
             bw.flush();
 
-            try{
-                Thread.sleep(1000);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
             InputStream is = socket.getInputStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             String info = null;
             info = br.readLine();
-            System.out.println("æˆ‘æ˜¯å®¢æˆ·ç«¯,æœåŠ¡å™¨è¿”å›ä¿¡æ¯:"+info);
+            System.out.println("ÎÒÊÇ¿Í»§¶Ë,·şÎñÆ÷·µ»ØĞÅÏ¢:"+info);
 
             bw.close();
         }catch (IOException e){
