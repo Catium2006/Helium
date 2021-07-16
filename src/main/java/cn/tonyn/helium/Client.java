@@ -11,14 +11,41 @@ public class Client {
     public Socket Client_Socket;
 
     //informations of client
+    /**
+     * @see cn.tonyn.json.ClientInfo
+     */
     public String Name;
+    /**
+     * @see cn.tonyn.json.ClientInfo
+     */
     public String HeliumVersion;
+    /**
+     * @see cn.tonyn.json.ClientInfo
+     */
     public String Platform;
+    /**
+     * @see cn.tonyn.json.ClientInfo
+     */
     public String SystemInfo;
+    /**
+     * @see cn.tonyn.json.ClientInfo
+     */
     public long Timestamp=0;
+    /**
+     * @see cn.tonyn.json.ClientInfo
+     */
     public String API;
+    /**
+     * @see cn.tonyn.json.ClientInfo
+     */
     public String OperationType;
+    /**
+     * @see cn.tonyn.json.ClientInfo
+     */
     public String Content;
+    /**
+     * @see cn.tonyn.json.ClientInfo
+     */
     public int OperationMark=-1;
 
     public Client(Socket socket){
@@ -35,6 +62,7 @@ public class Client {
             //get informations from json
             getInfo(recieve);
 
+            checkNull();
 
         }catch (IOException e){
             e.printStackTrace();
@@ -49,6 +77,7 @@ public class Client {
      */
     private void getInfo(String json) {
         JSONObject jsonObject = JSON.parseObject(json);
+
         Name = jsonObject.getString("ClientName");
         HeliumVersion = jsonObject.getString("HeliumVersion");
         Platform = jsonObject.getString("Platform");
@@ -86,11 +115,36 @@ public class Client {
         ){
             return true;
         }
+
+        close();
         return false;
     }
 
     /**
-     * send json message to client
+     * MUST BE RUN AFTER getInfo()
+     *
+     * check if the Helium that client is using is fit to server
+     * @return boolean
+     */
+    boolean checkVersion(){
+        String[] clientVersion = HeliumVersion.split(".");
+        String[] serverVersion = Config.VERSION.split(".");
+        int major_c = Integer.valueOf(clientVersion[0]);
+        int minor_c = Integer.valueOf(clientVersion[1]);
+        int major_s = Integer.valueOf(serverVersion[0]);
+        int minor_s = Integer.valueOf(serverVersion[1]);
+
+        //we only need to check the major and Minor
+        if(major_c==major_s&&minor_c<=major_s){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * MUST BE RUN AFTER getInfo()
+     *
+     * send json message to client (you can also send anything else , but if you do so , client may run into crash)
      * @param json
      * @return
      */
@@ -116,7 +170,9 @@ public class Client {
     }
 
     /**
-     * ban this client
+     * MUST BE RUN AFTER getInfo()
+     *
+     * ban this client , need a reason , anything you like
      * @param reason
      */
     void ban(String reason){
@@ -124,16 +180,16 @@ public class Client {
     }
 
     /**
+     * MUST BE RUN AFTER getInfo()
+     *
      * close connection of client
      */
     void close(){
         try{
             Client_Socket.close();
         }catch (IOException e){
-            e.printStackTrace();
-            Logger.log(e.getMessage(),"IOException");
+            Logger.log("Exception while disconnecting client:"+e.getMessage(),"IOException");
         }
-
     }
 
 }

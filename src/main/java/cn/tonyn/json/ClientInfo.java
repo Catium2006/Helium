@@ -1,12 +1,17 @@
 package cn.tonyn.json;
+
+
 /**
- A ClientInfo json should include the things below.
+ *a ClientInfo json should include the things below.
+ * @see cn.tonyn.helium.Client
+ *you can only get information from Client()
+ *
  */
 public class ClientInfo {
     //anything you like
     String ClientName;
 
-    //version of Helium API
+    //version of Helium , must be "[Num].[Num].[Num](-[String])"
     String HeliumVersion;
 
     //JVM or Android or C/C++ or Python ....
@@ -30,5 +35,6 @@ public class ClientInfo {
     //mark of operation , in order to avoid conflicts
     //must 0 or above
     String OperationMark;
+
 }
 

@@ -8,8 +8,8 @@ public class Config {
     //Listening socket port , default is 10060.
     public static final int PORT = 10060;
 
-    //Helium version
-    public static final String VERSION = "1.0-SNAPSHOT";
+    //Helium version , must be "[Num].[Num].[Num](-[String])"
+    public static final String VERSION = "1.0.0";
 
     //Server name , DO NOT USE "Helium Main Server"
     public static final String SERVER_NAME = "Helium Main Server";
