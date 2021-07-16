@@ -6,6 +6,9 @@ public class ClientInfo {
     //anything you like
     String ClientName;
 
+    //version of Helium API
+    String HeliumVersion;
+
     //JVM or Android or C/C++ or Python ....
     String Platform;
 
@@ -25,6 +28,7 @@ public class ClientInfo {
     String Content;
 
     //mark of operation , in order to avoid conflicts
+    //must 0 or above
     String OperationMark;
 }
 

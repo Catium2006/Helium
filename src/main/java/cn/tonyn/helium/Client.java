@@ -11,14 +11,15 @@ public class Client {
     public Socket Client_Socket;
 
     //informations of client
-    public String NAME;
+    public String Name;
+    public String HeliumVersion;
     public String Platform;
     public String SystemInfo;
-    public long Timestamp;
+    public long Timestamp=0;
     public String API;
     public String OperationType;
     public String Content;
-    public int OperationMark;
+    public int OperationMark=-1;
 
     public Client(Socket socket){
         Client_Socket = socket;
@@ -48,7 +49,8 @@ public class Client {
      */
     private void getInfo(String json) {
         JSONObject jsonObject = JSON.parseObject(json);
-        NAME = jsonObject.getString("ClientName");
+        Name = jsonObject.getString("ClientName");
+        HeliumVersion = jsonObject.getString("HeliumVersion");
         Platform = jsonObject.getString("Platform");
         SystemInfo = jsonObject.getString("SystemInfo");
         Timestamp = jsonObject.getLong("Timestamp");
@@ -61,12 +63,39 @@ public class Client {
     }
 
     /**
+     * MUST BE RUN AFTER getInfo()
+     *
+     * check if we got a complete Client
+     * if true , everything is right
+     * if false , that means we got a Client which has problems , we will disconnect it
+     *
+     * @return boolean
+     */
+    boolean checkNull(){
+        if(
+                Name!=null&&
+                HeliumVersion!=null&&
+                Platform!=null&&
+                SystemInfo!=null&&
+                Timestamp!=0&&
+                API!=null&&
+                OperationType!=null&&
+                Content!=null&&
+                OperationMark>=0
+
+        ){
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * send json message to client
      * @param json
      * @return
      */
     boolean send(String json){
-        Logger.log("Try to sending to "+NAME+" ...","Client");
+        Logger.log("Try to sending to "+Name+" ...","Client");
         try{
             OutputStream os = Client_Socket.getOutputStream();
             OutputStreamWriter osw = new OutputStreamWriter(os);
@@ -76,12 +105,12 @@ public class Client {
             bw.flush();
             bw.close();
 
-            Logger.log("Succeeded in sending to "+NAME+": "+json,"Client");
+            Logger.log("Succeeded in sending to "+Name+": "+json,"Client");
             return true;
         }catch (IOException e){
             e.printStackTrace();
             Logger.log(e.getMessage(),"IOException");
-            Logger.log("Failed in sending to "+NAME);
+            Logger.log("Failed in sending to "+Name);
             return false;
         }
     }
