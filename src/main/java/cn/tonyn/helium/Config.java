@@ -12,13 +12,15 @@ public class Config {
     public static final String VERSION = "1.0.0";
 
     //Server name , DO NOT USE "Helium Main Server"
-    public static final String SERVER_NAME = "Helium Main Server";
+    public static String SERVER_NAME = "Helium Main Server";
 
     //MAX Number of users , default is 102400.
     public static final int MAX_USERS = 102400;
 
     //Default operator passcode , in order to do some setting on Helium , as you are the administrator.
-    public static final String OPERATING_CODE = "#*#*1234";
+    public static String OPERATING_CODE = "#*#*1234";
+
+    public static String PLATFORM = "JVM";
 
 
 }

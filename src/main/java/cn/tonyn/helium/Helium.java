@@ -54,4 +54,12 @@ public class Helium {
         (new File("data/user")).mkdirs();
 
     }
+
+    static void setServerName(String name){
+        Config.SERVER_NAME=name;
+    }
+    static void setOperatingCode(String code){
+        Config.OPERATING_CODE=code;
+    }
+
 }

@@ -1,50 +1,54 @@
 package cn.tonyn.helium;
 
+import cn.tonyn.helium.OperationType.InternalCommand;
+import cn.tonyn.helium.OperationType.Operations;
+import cn.tonyn.helium.json.ClientInfo;
+import cn.tonyn.helium.json.ServerReply;
 import cn.tonyn.log.Logger;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Date;
 
 public class Client {
     public Socket Client_Socket;
-
     //informations of client
     /**
-     * @see cn.tonyn.json.ClientInfo
+     * @see ClientInfo
      */
     public String Name;
     /**
-     * @see cn.tonyn.json.ClientInfo
+     * @see ClientInfo
      */
     public String HeliumVersion;
     /**
-     * @see cn.tonyn.json.ClientInfo
+     * @see ClientInfo
      */
     public String Platform;
     /**
-     * @see cn.tonyn.json.ClientInfo
+     * @see ClientInfo
      */
     public String SystemInfo;
     /**
-     * @see cn.tonyn.json.ClientInfo
+     * @see ClientInfo
      */
     public long Timestamp=0;
     /**
-     * @see cn.tonyn.json.ClientInfo
+     * @see ClientInfo
      */
     public String API;
     /**
-     * @see cn.tonyn.json.ClientInfo
+     * @see ClientInfo
      */
     public String OperationType;
     /**
-     * @see cn.tonyn.json.ClientInfo
+     * @see ClientInfo
      */
     public String Content;
     /**
-     * @see cn.tonyn.json.ClientInfo
+     * @see ClientInfo
      */
     public int OperationMark=-1;
 
@@ -54,6 +58,7 @@ public class Client {
             //get informations from socket
             InputStream is = Client_Socket.getInputStream();
             InputStreamReader isr = new InputStreamReader(is);
+
             BufferedReader br = new BufferedReader(isr);
             String recieve;
             recieve=br.readLine();
@@ -72,7 +77,7 @@ public class Client {
     }
 
     /**
-     * get informations from json
+     * get information from json
      * @param json
      */
     private void getInfo(String json) {
@@ -115,10 +120,11 @@ public class Client {
         ){
             return true;
         }
-
+        send(buildReply(false, Operations.InternalCommand, InternalCommand.BadConnection));
         close();
         return false;
     }
+
 
     /**
      * MUST BE RUN AFTER getInfo()
@@ -135,10 +141,37 @@ public class Client {
         int minor_s = Integer.valueOf(serverVersion[1]);
 
         //we only need to check the major and Minor
-        if(major_c==major_s&&minor_c<=major_s){
+        if(major_c==major_s&&minor_c<=minor_s){
+            Logger.log("Check Version of "+Name+" :OK","Client");
             return true;
         }
+
+        Logger.log("Check Version of "+Name+" :Not OK","Client");
+        //send message to client
+        String s=buildReply(false,Operations.InternalCommand,InternalCommand.BadVersion);
+        send(s);
         return false;
+    }
+
+    /**
+     * build a ServerReply.json
+     * @see ServerReply
+     * @param allowed
+     * @param operationType
+     * @param content
+     * @return String
+     */
+    String buildReply(boolean allowed,String operationType,String content){
+        long t = (new Date()).getTime();
+        String s="{\"ServerName\":\"" + Config.SERVER_NAME + "\","+
+                "\"HeliumVersion\":\"" + Config.VERSION + "\","+
+                "\"Platform\":\"" + Config.PLATFORM + "\","+
+                "\"Timestamp\":\"" + t + "\","+
+                "\"Allowed\":\"" + String.valueOf(allowed) +"\","+
+                "\"OperationOf\":\"" + OperationMark + "\","+
+                "\"OperationType\":\"" + operationType + "\","+
+                "\"Content\":\"" + content +"\"}";
+        return s;
     }
 
     /**
@@ -149,7 +182,7 @@ public class Client {
      * @return
      */
     boolean send(String json){
-        Logger.log("Try to sending to "+Name+" ...","Client");
+        Logger.log("Try to send to "+Name+" ...","Client");
         try{
             OutputStream os = Client_Socket.getOutputStream();
             OutputStreamWriter osw = new OutputStreamWriter(os);
@@ -158,7 +191,6 @@ public class Client {
             bw.newLine();
             bw.flush();
             bw.close();
-
             Logger.log("Succeeded in sending to "+Name+": "+json,"Client");
             return true;
         }catch (IOException e){
