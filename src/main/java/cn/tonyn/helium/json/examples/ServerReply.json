@@ -1,1 +1,1 @@
-{"ServerName": "Helium Main Server", "HeliumVersion": "1.0.0", "Platform": "JVM", "Timestamp": "114514", "Allowed": "true","OperationOf": "0", "OperationType": "SendMessageGroup" , "Content": "你吃了一个包子 感觉好多了"}
+{"ServerName": "Helium Main Server", "HeliumVersion": "1.0.0", "Platform": "JVM", "Timestamp": "114514", "Allowed": "true","OperationOf": "1", "OperationType": "Ping" , "Content": "1ms"}

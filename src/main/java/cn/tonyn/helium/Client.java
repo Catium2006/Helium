@@ -48,9 +48,14 @@ public class Client {
      */
     public String Content;
     /**
+     * default is -1
      * @see ClientInfo
      */
     public int OperationMark=-1;
+    /**
+     * default is -1
+     */
+    public long Delay = -1;
 
     public Client(Socket socket){
         Client_Socket = socket;
@@ -68,6 +73,7 @@ public class Client {
             getInfo(recieve);
 
             checkNull();
+            checkVersion();
 
         }catch (IOException e){
             e.printStackTrace();
@@ -93,6 +99,8 @@ public class Client {
         Content = jsonObject.getString("Content");
         OperationMark = jsonObject.getInteger("OperationMark");
 
+        Date d = new Date();
+        Delay = d.getTime() - Timestamp;
 
     }
 
@@ -133,8 +141,8 @@ public class Client {
      * @return boolean
      */
     boolean checkVersion(){
-        String[] clientVersion = HeliumVersion.split(".");
-        String[] serverVersion = Config.VERSION.split(".");
+        String[] clientVersion = HeliumVersion.split("\\.");
+        String[] serverVersion = Config.VERSION.split("\\.");
         int major_c = Integer.valueOf(clientVersion[0]);
         int minor_c = Integer.valueOf(clientVersion[1]);
         int major_s = Integer.valueOf(serverVersion[0]);
@@ -167,7 +175,7 @@ public class Client {
                 "\"HeliumVersion\":\"" + Config.VERSION + "\","+
                 "\"Platform\":\"" + Config.PLATFORM + "\","+
                 "\"Timestamp\":\"" + t + "\","+
-                "\"Allowed\":\"" + String.valueOf(allowed) +"\","+
+                "\"Allowed\":\"" + allowed +"\","+
                 "\"OperationOf\":\"" + OperationMark + "\","+
                 "\"OperationType\":\"" + operationType + "\","+
                 "\"Content\":\"" + content +"\"}";
@@ -201,6 +209,13 @@ public class Client {
         }
     }
 
+    InputStream getInPutStream() throws IOException{
+        return Client_Socket.getInputStream();
+    }
+
+    OutputStream getOutPutStream() throws IOException{
+        return Client_Socket.getOutputStream();
+    }
     /**
      * MUST BE RUN AFTER getInfo()
      *
