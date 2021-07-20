@@ -4,15 +4,12 @@ public class Operations {
     /**
      * @see InternalCommand
      */
-    public static String InternalCommand = "internal command";
+    public static final String InternalCommand = "internal command";
 
     /**
-     * @see GroupMessage
+     * @see Message
      */
-    public static String GroupMessage = "group message";
+    public static final String Message = "message";
 
-    /**
-     * @see FriendMessage
-     */
-    public static String FriendMessage = "friend message";
+
 }

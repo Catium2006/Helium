@@ -1,6 +1,9 @@
 package cn.tonyn.helium;
 
 import cn.tonyn.log.Logger;
+import cn.tonyn.util.TextFile;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,11 +12,6 @@ import java.net.Socket;
 
 public class Helium {
     public static void main(String[] args){
-        //print some information
-        System.out.println("=====Helimu=====\r\n" +
-                "v " + Config.VERSION + "\r\n" +
-                "listening " + Config.PORT
-        );
 
         //make necessary directories
         makeDirs();
@@ -24,6 +22,28 @@ public class Helium {
     }
 
     static void startHelium() {
+        String config_json = "{\"ServerName\": \"Helium Server\", \"ListeningPort\": \"10060\", \"MaxUsers\": \"102400\", \"OperatingCode\": \"*#*#1234\", \"NumberOfUsers\": \"0\"}";
+        File config_json_file =new File("Config.json");
+        if(!config_json_file.isFile()){
+            TextFile.write(config_json_file,config_json);
+        }
+
+        config_json = TextFile.read(config_json_file);
+        JSONObject jsonObject = JSON.parseObject(config_json);
+        Config.SERVER_NAME=jsonObject.getString("ServerName");
+        Config.OPERATING_CODE=jsonObject.getString("OperatingCode");
+        Config.PORT=jsonObject.getInteger("ListeningPort");
+        Config.MAX_USERS=jsonObject.getInteger("MaxUsers");
+        Config.NUMBER_OF_USERS=jsonObject.getInteger("NumberOfUsers");
+
+        //print some information
+        System.out.println("=====Helimu=====\r\n" +
+                "v " + Config.VERSION + "\r\n" +
+                "listening " + Config.PORT + "\r\n" +
+                "we have "+Config.NUMBER_OF_USERS+" users" + "\r\n" +
+                "server name is "+Config.SERVER_NAME
+        );
+
         try{
             //get socket client
             ServerSocket serverSocket = new ServerSocket(10060);
@@ -51,15 +71,31 @@ public class Helium {
     }
     static void makeDirs(){
         (new File("data/log")).mkdirs();
-        (new File("data/user")).mkdirs();
+        (new File("data/users")).mkdirs();
 
     }
 
-    static void setServerName(String name){
+    static void setServerName(String name) {
         Config.SERVER_NAME=name;
     }
+
     static void setOperatingCode(String code){
         Config.OPERATING_CODE=code;
+    }
+
+    static void setMaxUsers(int maxUsers){
+        Config.MAX_USERS=maxUsers;
+    }
+
+    static void flushConfig(){
+        String json="{\"ServerName\": \"" + Config.SERVER_NAME+"\", " +
+                "\"ListeningPort\": \"" + Config.PORT + "\", " +
+                "\"MaxUsers\": \"" + Config.MAX_USERS + "\", " +
+                "\"OperatingCode\": \"" + Config.OPERATING_CODE + "\", " +
+                "\"NumberOfUsers\": \"" + Config.NUMBER_OF_USERS + "\"}";
+        File f = new File("Config.json");
+        f.delete();
+        TextFile.write(f,json);
     }
 
 }

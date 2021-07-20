@@ -17,7 +17,8 @@ import oshi.SystemInfo;
 
 public class HeliumClient {
     public String Name;
-    public String HeliumServer;
+    public String HeliumServerAddress;
+    public String HeliumServerName;
     public int Port;
     public Socket HeliumServerSocket;
 
@@ -27,6 +28,7 @@ public class HeliumClient {
 
     String OS;
     String API;
+
     /**
      * create a HeliumClient
      * need a name
@@ -48,7 +50,7 @@ public class HeliumClient {
      */
     public void connect(String address , int port){
         Port = port;
-        HeliumServer = address;
+        HeliumServerAddress = address;
         try {
             HeliumServerSocket = new Socket(address, port);
             Connected=true;
@@ -57,13 +59,18 @@ public class HeliumClient {
         }
     }
 
+    /**
+     * get delay from client to server
+     *
+     * @return
+     */
     public long getPings(){
         String json = buildRequest(Operations.InternalCommand, InternalCommand.Ping);
         String _json = sendAndReceive(json);
         JSONObject jsonObject0 = JSON.parseObject(json);
         JSONObject jsonObject1 = JSON.parseObject(_json);
         long delay = jsonObject1.getLong("Timestamp") - jsonObject0.getLong("Timestamp");
-
+        HeliumServerName = jsonObject1.getString("ServerName");
         return delay;
     }
 
@@ -84,14 +91,14 @@ public class HeliumClient {
                 "\"Timestamp\":\"" + t + "\","+
                 "\"API\":\"" + API + "\","+
                 "\"OperationType\":\"" + operationType + "\","+
-                //"\"Content\":\"" + content +"\""+
+                "\"Content\":\"" + content +"\""+
                 "\"OperationMark\":\"" + mark +"\"}";
         System.out.println("\r\n"+s+"\r\n");
         return s;
     }
 
     /**
-     * send json message to server and receive something(usually json format)
+     * send message to server and receive something(usually json format)
      * @param json
      * @return
      */
