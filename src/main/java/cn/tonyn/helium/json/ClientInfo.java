@@ -1,9 +1,11 @@
 package cn.tonyn.helium.json;
 
 
+import cn.tonyn.helium.client.Client;
+
 /**
  *a ClientInfo json should include the things below.
- * @see cn.tonyn.helium.Client
+ * @see Client
  *you can only get information from Client()
  *
  */

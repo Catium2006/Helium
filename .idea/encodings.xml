@@ -2,10 +2,10 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/src/main/java/cn/tonyn/Test.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/java/cn/tonyn/helium/Client.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/java/cn/tonyn/helium/ClientHandler.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/java/cn/tonyn/helium/Config.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/java/cn/tonyn/helium/Helium.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/tonyn/helium/client/Client.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/tonyn/helium/client/ClientHandler.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/java/cn/tonyn/helium/json/ClientInfo.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/java/cn/tonyn/log/Logger.java" charset="GBK" />
   </component>

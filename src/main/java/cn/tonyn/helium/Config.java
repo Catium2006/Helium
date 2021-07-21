@@ -1,5 +1,10 @@
 package cn.tonyn.helium;
-    /*
+
+import cn.tonyn.util.TextFile;
+
+import java.io.File;
+
+/*
     This class defines configs of Helium, you can edit all these below.
 
     */
@@ -23,6 +28,20 @@ public class Config {
     public static final String PLATFORM = "JVM";
 
     public static int NUMBER_OF_USERS = -1;
+
+    /**
+     * write config to file
+     */
+    static void writeConfig(){
+        String json="{\"ServerName\":\"" + Config.SERVER_NAME+"\"," +
+                "\"ListeningPort\":\"" + Config.PORT + "\"," +
+                "\"MaxUsers\":\""+ Config.MAX_USERS + "\"," +
+                "\"OperatingCode\":\"" + Config.OPERATING_CODE + "\"," +
+                "\"NumberOfUsers\":\"" + Config.NUMBER_OF_USERS + "\"}";
+        File f = new File("Config.json");
+        f.delete();
+        TextFile.write(f,json);
+    }
 
 
 }

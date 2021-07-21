@@ -1,18 +1,17 @@
-package cn.tonyn.helium.client;
+package cn.tonyn.heliumclient;
 
 import cn.tonyn.helium.Config;
-
-import java.io.*;
-import java.net.Socket;
-import java.util.Date;
-import java.util.Random;
-
 import cn.tonyn.helium.OperationType.InternalCommand;
 import cn.tonyn.helium.OperationType.Operations;
 import cn.tonyn.log.Logger;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import oshi.SystemInfo;
+
+import java.io.*;
+import java.net.Socket;
+import java.util.Date;
+import java.util.Random;
 
 
 public class HeliumClient {
@@ -35,7 +34,7 @@ public class HeliumClient {
      *
      * @param name
      */
-    public HeliumClient(String name,String api) {
+    public HeliumClient(String name, String api) {
         Name=name;
         SystemInfo systemInfo = new SystemInfo();
         OS = systemInfo.getOperatingSystem().toString();

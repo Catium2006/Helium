@@ -65,4 +65,8 @@ public class User {
         }
     }
 
+    void writeFile(){
+
+    }
+
 }

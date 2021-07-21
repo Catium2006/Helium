@@ -1,5 +1,6 @@
-package cn.tonyn.helium;
+package cn.tonyn.helium.client;
 
+import cn.tonyn.helium.Config;
 import cn.tonyn.helium.OperationType.InternalCommand;
 import cn.tonyn.helium.OperationType.Operations;
 import cn.tonyn.helium.json.ClientInfo;
@@ -113,7 +114,7 @@ public class Client {
      *
      * @return boolean
      */
-    boolean checkNull(){
+    public boolean checkNull(){
         if(
                 Name!=null&&
                 HeliumVersion!=null&&
@@ -140,7 +141,7 @@ public class Client {
      * check if the Helium that client is using is fit to server
      * @return boolean
      */
-    boolean checkVersion(){
+    public boolean checkVersion(){
         String[] clientVersion = HeliumVersion.split("\\.");
         String[] serverVersion = Config.VERSION.split("\\.");
         int major_c = Integer.valueOf(clientVersion[0]);
@@ -169,7 +170,7 @@ public class Client {
      * @param content
      * @return String
      */
-    String buildReply(boolean allowed,String operationType,String content){
+    public String buildReply(boolean allowed,String operationType,String content){
         long t = (new Date()).getTime();
         String s="{\"ServerName\":\"" + Config.SERVER_NAME + "\","+
                 "\"HeliumVersion\":\"" + Config.VERSION + "\","+
@@ -189,7 +190,7 @@ public class Client {
      * @param json
      * @return
      */
-    boolean send(String json){
+    public boolean send(String json){
         Logger.log("Try to send to "+Name+" ...","Client");
         try{
             OutputStream os = Client_Socket.getOutputStream();
@@ -209,11 +210,11 @@ public class Client {
         }
     }
 
-    InputStream getInPutStream() throws IOException{
+    public InputStream getInPutStream() throws IOException{
         return Client_Socket.getInputStream();
     }
 
-    OutputStream getOutPutStream() throws IOException{
+    public OutputStream getOutPutStream() throws IOException{
         return Client_Socket.getOutputStream();
     }
     /**
@@ -222,7 +223,7 @@ public class Client {
      * ban this client , need a reason , anything you like
      * @param reason
      */
-    void ban(String reason){
+    public void ban(String reason){
 
     }
 
@@ -231,7 +232,7 @@ public class Client {
      *
      * close connection of client
      */
-    void close(){
+    public void close(){
         try{
             Client_Socket.close();
         }catch (IOException e){

@@ -1,5 +1,7 @@
 package cn.tonyn.helium;
 
+import cn.tonyn.helium.client.Client;
+import cn.tonyn.helium.client.ClientHandler;
 import cn.tonyn.log.Logger;
 import cn.tonyn.util.TextFile;
 import com.alibaba.fastjson.JSON;
@@ -22,7 +24,7 @@ public class Helium {
     }
 
     static void startHelium() {
-        String config_json = "{\"ServerName\": \"Helium Server\", \"ListeningPort\": \"10060\", \"MaxUsers\": \"102400\", \"OperatingCode\": \"*#*#1234\", \"NumberOfUsers\": \"0\"}";
+        String config_json = "{\"ServerName\":\"Helium Server\",\"ListeningPort\":\"10060\",\"MaxUsers\":\"102400\",\"OperatingCode\":\"*#*#1234\",\"NumberOfUsers\":\"0\"}";
         File config_json_file =new File("Config.json");
         if(!config_json_file.isFile()){
             TextFile.write(config_json_file,config_json);
@@ -72,7 +74,6 @@ public class Helium {
     static void makeDirs(){
         (new File("data/log")).mkdirs();
         (new File("data/users")).mkdirs();
-
     }
 
     static void setServerName(String name) {
@@ -87,15 +88,6 @@ public class Helium {
         Config.MAX_USERS=maxUsers;
     }
 
-    static void flushConfig(){
-        String json="{\"ServerName\": \"" + Config.SERVER_NAME+"\", " +
-                "\"ListeningPort\": \"" + Config.PORT + "\", " +
-                "\"MaxUsers\": \"" + Config.MAX_USERS + "\", " +
-                "\"OperatingCode\": \"" + Config.OPERATING_CODE + "\", " +
-                "\"NumberOfUsers\": \"" + Config.NUMBER_OF_USERS + "\"}";
-        File f = new File("Config.json");
-        f.delete();
-        TextFile.write(f,json);
-    }
+
 
 }

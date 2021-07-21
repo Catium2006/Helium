@@ -1,1 +1,1 @@
-{"ClientName": "MyClient" , "HeliumVersion":"1.0.0" , "Platform": "JVM" , "SystemInfo": "Ubuntu Server 20.04" , "Timestamp": "114514" , "API": "QQ" , "OperationType":  "internal command", "Content": "Ping" , "OperationMark": "1"}
+{"ClientName":"MyClient","HeliumVersion":"1.0.0","Platform": "JVM","SystemInfo":"Ubuntu Server 20.04","Timestamp":"114514","API":"QQ","OperationType":"internal command","Content":"Ping","OperationMark":"1"}

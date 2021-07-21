@@ -1,4 +1,4 @@
-package cn.tonyn.helium;
+package cn.tonyn.helium.client;
 
 import cn.tonyn.helium.OperationType.InternalCommand;
 import cn.tonyn.helium.OperationType.Operations;
