@@ -2,6 +2,7 @@ package cn.tonyn.helium;
 
 import cn.tonyn.helium.client.Client;
 import cn.tonyn.helium.client.ClientHandler;
+import cn.tonyn.helium.mysql.SqlConnection;
 import cn.tonyn.log.Logger;
 import cn.tonyn.util.TextFile;
 import com.alibaba.fastjson.JSON;
@@ -12,7 +13,12 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+
 public class Helium {
+    /**
+     * 入口
+     * @param args
+     */
     public static void main(String[] args){
 
         //make necessary directories
@@ -23,8 +29,11 @@ public class Helium {
 
     }
 
+    /**
+     * 真正开始执行
+     */
     static void startHelium() {
-        String config_json = "{\"ServerName\":\"Helium Server\",\"ListeningPort\":\"10060\",\"MaxUsers\":\"102400\",\"OperatingCode\":\"*#*#1234\",\"NumberOfUsers\":\"0\"}";
+        String config_json = "{\"ServerName\":\"Helium Server\",\"ListeningPort\":\"10060\",\"OperatingCode\":\"*#*#1234\",\"MySqlServer\":\"localhost:3306\",\"MySqlUser\":\"helium\",\"MySqlPassword\":\"password\"}";
         File config_json_file =new File("Config.json");
         if(!config_json_file.isFile()){
             TextFile.write(config_json_file,config_json);
@@ -35,16 +44,23 @@ public class Helium {
         Config.SERVER_NAME=jsonObject.getString("ServerName");
         Config.OPERATING_CODE=jsonObject.getString("OperatingCode");
         Config.PORT=jsonObject.getInteger("ListeningPort");
-        Config.MAX_USERS=jsonObject.getInteger("MaxUsers");
-        Config.NUMBER_OF_USERS=jsonObject.getInteger("NumberOfUsers");
+
+        Config.MYSQLSERVER=jsonObject.getString("MySqlServer");
+        Config.MYSQLUSER=jsonObject.getString("MySqlUser");
+        Config.MYSQLPASSWORD=jsonObject.getString("MySqlPassword");
 
         //print some information
         System.out.println("=====Helimu=====\r\n" +
                 "v " + Config.VERSION + "\r\n" +
                 "listening " + Config.PORT + "\r\n" +
-                "we have "+Config.NUMBER_OF_USERS+" users" + "\r\n" +
-                "server name is "+Config.SERVER_NAME
+                "we have "+SqlConnection.getLengthOf("_user")+" users" + "\r\n" +
+                "server name is "+Config.SERVER_NAME + "\r\n" +
+                "using MySql: "+Config.MYSQLSERVER
         );
+
+        Logger.log("connecting to mysql server...");
+
+
 
         try{
             //get socket client
@@ -71,22 +87,24 @@ public class Helium {
         }
 
     }
+
+    /**
+     * 建目录
+     */
     static void makeDirs(){
         (new File("data/log")).mkdirs();
         (new File("data/users")).mkdirs();
     }
 
-    static void setServerName(String name) {
-        Config.SERVER_NAME=name;
-    }
 
+    /**
+     * 修改操作密码
+     * @param code
+     */
     static void setOperatingCode(String code){
         Config.OPERATING_CODE=code;
     }
 
-    static void setMaxUsers(int maxUsers){
-        Config.MAX_USERS=maxUsers;
-    }
 
 
 

@@ -1,1 +1,1 @@
-{"ServerName": "Helium Server", "ListeningPort": "10060", "MaxUsers": "102400", "OperatingCode": "*#*#1234", "NumberOfUsers": "0"}
+{"ServerName":"Helium Server","ListeningPort":"10060","OperatingCode":"*#*#1234","MySqlServer":"www.tonyn.cn:3306","MySqlUser":"helium","MySqlPassword":"heliummysql*#"}

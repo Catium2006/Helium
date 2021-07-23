@@ -20,14 +20,20 @@ public class Config {
     public static String SERVER_NAME = "Helium Main Server";
 
     //MAX Number of users , default is 102400.
-    public static int MAX_USERS = 102400;
+
 
     //Default operator passcode , in order to do some setting on Helium , as you are the administrator.
     public static String OPERATING_CODE = "*#*#1234";
 
     public static final String PLATFORM = "JVM";
 
-    public static int NUMBER_OF_USERS = -1;
+
+
+    public static String MYSQLSERVER = "localhost:3306";
+
+    public static String MYSQLUSER = "helium";
+
+    public static String MYSQLPASSWORD = "";
 
     /**
      * write config to file
@@ -35,9 +41,7 @@ public class Config {
     static void writeConfig(){
         String json="{\"ServerName\":\"" + Config.SERVER_NAME+"\"," +
                 "\"ListeningPort\":\"" + Config.PORT + "\"," +
-                "\"MaxUsers\":\""+ Config.MAX_USERS + "\"," +
-                "\"OperatingCode\":\"" + Config.OPERATING_CODE + "\"," +
-                "\"NumberOfUsers\":\"" + Config.NUMBER_OF_USERS + "\"}";
+                "\"OperatingCode\":\"" + Config.OPERATING_CODE + "\"}";
         File f = new File("Config.json");
         f.delete();
         TextFile.write(f,json);

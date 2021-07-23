@@ -12,12 +12,14 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.jetbrains:annotations:20.1.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 
     implementation 'com.alibaba:fastjson:1.2.47'
     implementation 'com.github.oshi:oshi-core:3.5.0'
     implementation 'org.slf4j:slf4j-simple:1.7.25'
+    implementation 'mysql:mysql-connector-java:8.0.16'
 }
 
 test {
