@@ -35,8 +35,6 @@ public class SqlConnection {
                 return rs;
             }
 
-
-
         }catch(SQLException se){
             // 处理 JDBC 错误
             se.printStackTrace();
@@ -48,6 +46,11 @@ public class SqlConnection {
         }
     }
 
+    /**
+     * 执行Sql语句,不要求返回,用于insert,update等非检索操作
+     * @param sql
+     * @return
+     */
     public static boolean doSqlNoResult(String sql){
         Connection conn = null;
         Statement stmt = null;
@@ -101,7 +104,7 @@ public class SqlConnection {
     }
 
     /**
-     * 获取表长 仅限于包含uid字段的表
+     * 获取表长 仅限于包含_uid字段的表
      * @param _table
      * @return
      */

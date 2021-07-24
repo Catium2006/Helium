@@ -95,7 +95,6 @@ public class Helium {
      */
     static void makeDirs(){
         (new File("data/log")).mkdirs();
-        (new File("data/users")).mkdirs();
     }
 
 
@@ -107,10 +106,12 @@ public class Helium {
         Config.OPERATING_CODE=code;
     }
 
+    /**
+     * ≤‚ ‘”√¥˙¬Î
+     */
     static void test(){
-        for(int i=0;i<=4;i++){
-            User.createNewUser("test"+i);
-        }
+
+
 
     }
 

@@ -19,7 +19,7 @@ public class HeliumClient {
     public String HeliumServerAddress;
     public String HeliumServerName;
     public int Port;
-    public Socket HeliumServerSocket;
+    //public Socket HeliumServerSocket;
 
     public boolean Connected;
 
@@ -34,29 +34,16 @@ public class HeliumClient {
      *
      * @param name
      */
-    public HeliumClient(String name, String api) {
+    public HeliumClient(String name, String api,String address,int port) {
         Name=name;
         SystemInfo systemInfo = new SystemInfo();
         OS = systemInfo.getOperatingSystem().toString();
         API=api;
+        HeliumServerAddress = address;
+        Port = port;
     }
 
-    /**
-     * connect to server
-     *
-     * @param address
-     * @param port
-     */
-    public void connect(String address , int port){
-        Port = port;
-        HeliumServerAddress = address;
-        try {
-            HeliumServerSocket = new Socket(address, port);
-            Connected=true;
-        }catch (IOException e){
-            Connected=false;
-        }
-    }
+
 
     /**
      * get delay from client to server
@@ -71,6 +58,16 @@ public class HeliumClient {
         long delay = jsonObject1.getLong("Timestamp") - jsonObject0.getLong("Timestamp");
         HeliumServerName = jsonObject1.getString("ServerName");
         return delay;
+    }
+
+    public Socket getSocket(){
+        try{
+            return new Socket(HeliumServerAddress,Port);
+        }catch (IOException e){
+            Logger.log(e.getMessage(),"IOException");
+            return null;
+        }
+
     }
 
     /**
@@ -90,7 +87,7 @@ public class HeliumClient {
                 "\"Timestamp\":\"" + t + "\","+
                 "\"API\":\"" + API + "\","+
                 "\"OperationType\":\"" + operationType + "\","+
-                "\"Content\":\"" + content +"\""+
+                "\"Content\":\"" + content +"\","+
                 "\"OperationMark\":\"" + mark +"\"}";
         System.out.println("\r\n"+s+"\r\n");
         return s;
@@ -104,12 +101,13 @@ public class HeliumClient {
     public String sendAndReceive(String json){
         Logger.log("sending to server: "+json+"\r\n");
         try{
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(HeliumServerSocket.getOutputStream()),json.length());
+            Socket socket = new Socket(HeliumServerAddress,Port);
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()),json.length());
             bw.write(json);
             bw.newLine();
             bw.flush();
 
-            InputStream is = HeliumServerSocket.getInputStream();
+            InputStream is = socket.getInputStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             String _json = br.readLine();
             Logger.log("receive from server: " + _json+"\r\n");

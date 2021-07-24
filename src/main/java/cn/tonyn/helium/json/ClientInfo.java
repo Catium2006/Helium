@@ -7,6 +7,10 @@ import cn.tonyn.helium.client.Client;
  *a ClientInfo json should include the things below.
  * @see Client
  *you can only get information from Client()
+ * 没有什么用的类 仅用于说明
+ *
+ * 草 本来想写全英文的
+ * 放弃了
  *
  */
 public class ClientInfo {
