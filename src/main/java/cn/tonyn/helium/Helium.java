@@ -3,6 +3,7 @@ package cn.tonyn.helium;
 import cn.tonyn.helium.client.Client;
 import cn.tonyn.helium.client.ClientHandler;
 import cn.tonyn.helium.mysql.SqlConnection;
+import cn.tonyn.helium.user.User;
 import cn.tonyn.log.Logger;
 import cn.tonyn.util.TextFile;
 import com.alibaba.fastjson.JSON;
@@ -49,6 +50,7 @@ public class Helium {
         Config.MYSQLUSER=jsonObject.getString("MySqlUser");
         Config.MYSQLPASSWORD=jsonObject.getString("MySqlPassword");
 
+        Logger.log("connecting to mysql server...");
         //print some information
         System.out.println("=====Helimu=====\r\n" +
                 "v " + Config.VERSION + "\r\n" +
@@ -58,7 +60,7 @@ public class Helium {
                 "using MySql: "+Config.MYSQLSERVER
         );
 
-        Logger.log("connecting to mysql server...");
+        test();
 
 
 
@@ -103,6 +105,13 @@ public class Helium {
      */
     static void setOperatingCode(String code){
         Config.OPERATING_CODE=code;
+    }
+
+    static void test(){
+        for(int i=0;i<=4;i++){
+            User.createNewUser("test"+i);
+        }
+
     }
 
 

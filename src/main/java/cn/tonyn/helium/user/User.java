@@ -18,7 +18,7 @@ public class User {
     int Health;
     int Force;
 
-    User ByUid(int uid){
+    public static User byUid(int uid){
         User user = new User();
         ResultSet rs = SqlConnection.getByUid("_user",uid);
         try{
@@ -30,7 +30,6 @@ public class User {
                 user.Experience = rs.getInt("_experience");
                 user.Health = rs.getInt("_health");
                 user.Force = rs.getInt("_force");
-
             }
         }catch (SQLException e){
             Logger.log(e.getMessage(),"SQLException");
@@ -39,7 +38,7 @@ public class User {
         return user;
     }
 
-    User ByUsername(String username){
+    public static User byUsername(String username){
         User user = new User();
         ResultSet rs = SqlConnection.getByUsername("_user",username);
         try{
@@ -58,6 +57,17 @@ public class User {
             user=null;
         }
         return user;
+    }
+
+    public static User createNewUser(String username){
+        int uid = SqlConnection.getLengthOf("_user") + 1;
+        String sql="insert into _user(_uid,_username,_password,_banned,_experience,_health,_force,_permission,_count) values("+uid+",'"+username+"','"+Config.OPERATING_CODE+"',0,0,128,16,1,0,";
+        if(SqlConnection.doSqlNoResult(sql)){
+            User user = byUsername(username);
+            return user;
+        }else {
+            return null;
+        }
     }
 
     public String getUsername(){
@@ -83,10 +93,14 @@ public class User {
 
     public void ban(){
         banned = true;
+        String sql = "update _user set _banned = 1 where _uid = "+Uid;
+        SqlConnection.doSql(sql);
     }
 
     public void cancelBan(){
         banned=false;
+        String sql = "update _user set _banned = 0 where _uid = "+Uid;
+        SqlConnection.doSql(sql);
     }
 
     public boolean isBaned(){
@@ -96,6 +110,8 @@ public class User {
     public void setPassword(String oldPassword , String newPassword) throws WrongPasswordException {
         if(oldPassword.equals(Password)||oldPassword.equals(Config.OPERATING_CODE)){
             Password = newPassword;
+            String sql = "update _user set _password = '"+Password+"' where _uid = "+Uid;
+            SqlConnection.doSql(sql);
         }else{
             throw new WrongPasswordException(newPassword,Uid,Username);
         }

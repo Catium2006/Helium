@@ -1,8 +1,8 @@
 package cn.tonyn.helium.client;
 
 import cn.tonyn.helium.Config;
-import cn.tonyn.helium.OperationType.InternalCommand;
-import cn.tonyn.helium.OperationType.Operations;
+import cn.tonyn.helium.operation.InternalCommand;
+import cn.tonyn.helium.operation.Operations;
 import cn.tonyn.helium.json.ClientInfo;
 import cn.tonyn.helium.json.ServerReply;
 import cn.tonyn.log.Logger;
@@ -15,7 +15,7 @@ import java.util.Date;
 
 public class Client {
     public Socket Client_Socket;
-    //informations of client
+    //information of client
     /**
      * @see ClientInfo
      */

@@ -1,8 +1,8 @@
 package cn.tonyn.heliumclient;
 
 import cn.tonyn.helium.Config;
-import cn.tonyn.helium.OperationType.InternalCommand;
-import cn.tonyn.helium.OperationType.Operations;
+import cn.tonyn.helium.operation.InternalCommand;
+import cn.tonyn.helium.operation.Operations;
 import cn.tonyn.log.Logger;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;

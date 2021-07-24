@@ -22,7 +22,7 @@ public class SqlConnection {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
             // 打开链接
-            System.out.println("connecting to mysql...");
+            Logger.log("sending to MySql: "+sql,"MySql");
             conn = DriverManager.getConnection(dburl, Config.MYSQLUSER,Config.MYSQLPASSWORD);
 
             //执行sql
@@ -47,6 +47,36 @@ public class SqlConnection {
             return null;
         }
     }
+
+    public static boolean doSqlNoResult(String sql){
+        Connection conn = null;
+        Statement stmt = null;
+        String dburl="jdbc:mysql://"+Config.MYSQLSERVER+"/helium?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+        try{
+            // 注册 JDBC 驱动
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // 打开链接
+            Logger.log("sending to MySql without result: "+sql,"MySql");
+            conn = DriverManager.getConnection(dburl, Config.MYSQLUSER,Config.MYSQLPASSWORD);
+
+            //执行sql
+            stmt = conn.createStatement();
+            boolean e = stmt.execute(sql);
+            return e;
+
+        }catch(SQLException se){
+            // 处理 JDBC 错误
+            se.printStackTrace();
+            return false;
+        }catch(Exception e){
+            // 处理 Class.forName 错误
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
 
     /**
      * 获取用户对象从username

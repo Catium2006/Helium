@@ -43,7 +43,7 @@ public class ClientInfo {
 
     /**
      * type of operation
-     * @see cn.tonyn.helium.OperationType.Operations
+     * @see cn.tonyn.helium.operation.Operations
      */
     String OperationType;
 

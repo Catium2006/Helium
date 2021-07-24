@@ -1,4 +1,4 @@
-package cn.tonyn.helium.OperationType;
+package cn.tonyn.helium.operation;
 
 public class Operations {
     /**
