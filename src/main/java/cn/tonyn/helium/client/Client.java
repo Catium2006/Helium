@@ -217,15 +217,6 @@ public class Client {
     public OutputStream getOutPutStream() throws IOException{
         return Client_Socket.getOutputStream();
     }
-    /**
-     * MUST BE RUN AFTER getInfo()
-     *
-     * ban this client , need a reason , anything you like
-     * @param reason
-     */
-    public void ban(String reason){
-
-    }
 
     /**
      * MUST BE RUN AFTER getInfo()

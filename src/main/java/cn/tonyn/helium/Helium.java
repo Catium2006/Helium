@@ -66,7 +66,7 @@ public class Helium {
 
         try{
             //get socket client
-            ServerSocket serverSocket = new ServerSocket(10060);
+            ServerSocket serverSocket = new ServerSocket(Config.PORT);
 
             while(true){
 
@@ -85,7 +85,7 @@ public class Helium {
             }
         }catch (IOException e){
             e.printStackTrace();
-            Logger.log(e.getMessage(),"IOExcepton");
+            Logger.log(e.getMessage(),"IOException");
         }
 
     }

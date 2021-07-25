@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class User {
-    long Uid;
+    int Uid;
     String Username;
     String Password;
     boolean banned;
@@ -74,7 +74,6 @@ public class User {
                 user.Permission = rs.getInt("_permission");
                 user.Count = rs.getInt("_count");
                 user.Money = rs.getInt("_money");
-
             }
         }catch (SQLException e){
             Logger.log(e.getMessage(),"SQLException");
@@ -92,16 +91,13 @@ public class User {
     public static User createNewUser(String username){
         int uid = SqlConnection.getLengthOf("_user");
         String sql="insert into _user(_uid,_username,_password,_banned,_experience,_health,_force,_permission,_count,_money) values("+uid+",'"+username+"','"+Config.OPERATING_CODE+"',0,0,128,16,1,0,0)";
-        if(SqlConnection.doSqlNoResult(sql)){
-            User user = byUsername(username);
-            return user;
-        }else {
-            return null;
-        }
+        SqlConnection.doSqlNoResult(sql);
+        User user = byUsername(username);
+        return user;
     }
 
 
-    public long getUid(){
+    public int getUid(){
         return Uid;
     }
 

@@ -1,6 +1,7 @@
 package cn.tonyn.heliumclient;
 
 import cn.tonyn.helium.Config;
+import cn.tonyn.helium.client.ClientHandler;
 import cn.tonyn.helium.operation.InternalCommand;
 import cn.tonyn.helium.operation.Operations;
 import cn.tonyn.log.Logger;
@@ -42,8 +43,6 @@ public class HeliumClient {
         HeliumServerAddress = address;
         Port = port;
     }
-
-
 
     /**
      * get delay from client to server
@@ -115,6 +114,12 @@ public class HeliumClient {
         }catch (IOException e){
             return null;
         }
+    }
+
+    public String getReplyFromJson(String json){
+        JSONObject jsonObject = JSON.parseObject(json);
+        String reply = jsonObject.getString("Content").replace(ClientHandler.Endl,"\r\n");
+        return reply;
     }
 
 

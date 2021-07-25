@@ -51,7 +51,7 @@ public class SqlConnection {
      * @param sql
      * @return
      */
-    public static boolean doSqlNoResult(String sql){
+    public static void doSqlNoResult(String sql){
         Connection conn = null;
         Statement stmt = null;
         String dburl="jdbc:mysql://"+Config.MYSQLSERVER+"/helium?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
@@ -65,17 +65,15 @@ public class SqlConnection {
 
             //执行sql
             stmt = conn.createStatement();
-            boolean e = stmt.execute(sql);
-            return e;
+            stmt.execute(sql);
+
 
         }catch(SQLException se){
             // 处理 JDBC 错误
             se.printStackTrace();
-            return false;
         }catch(Exception e){
             // 处理 Class.forName 错误
             e.printStackTrace();
-            return false;
         }
     }
 
