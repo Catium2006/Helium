@@ -7,6 +7,20 @@ import cn.tonyn.log.Logger;
 import java.sql.*;
 
 public class SqlConnection {
+    static Connection conn;
+    static Statement stmt;
+    static String dburl="jdbc:mysql://"+Config.MYSQLSERVER+"/helium?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+    public static void connect(){
+        // 注册 JDBC 驱动
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // 打开链接
+            conn = DriverManager.getConnection(dburl, Config.MYSQLUSER,Config.MYSQLPASSWORD);
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     /**
      * 执行sql语句并返回结果
@@ -14,17 +28,8 @@ public class SqlConnection {
      * @return
      */
     public static ResultSet doSql(String sql){
-        Connection conn = null;
-        Statement stmt = null;
-        String dburl="jdbc:mysql://"+Config.MYSQLSERVER+"/helium?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
         try{
-            // 注册 JDBC 驱动
-            Class.forName("com.mysql.cj.jdbc.Driver");
-
-            // 打开链接
             Logger.log("sending to MySql: "+sql,"MySql");
-            conn = DriverManager.getConnection(dburl, Config.MYSQLUSER,Config.MYSQLPASSWORD);
-
             //执行sql
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
@@ -43,6 +48,8 @@ public class SqlConnection {
             // 处理 Class.forName 错误
             e.printStackTrace();
             return null;
+        }finally {
+
         }
     }
 
@@ -52,21 +59,13 @@ public class SqlConnection {
      * @return
      */
     public static void doSqlNoResult(String sql){
-        Connection conn = null;
-        Statement stmt = null;
-        String dburl="jdbc:mysql://"+Config.MYSQLSERVER+"/helium?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+
         try{
-            // 注册 JDBC 驱动
-            Class.forName("com.mysql.cj.jdbc.Driver");
 
-            // 打开链接
-            Logger.log("sending to MySql without result: "+sql,"MySql");
-            conn = DriverManager.getConnection(dburl, Config.MYSQLUSER,Config.MYSQLPASSWORD);
-
+            Logger.log("sending to MySql: "+sql,"MySql");
             //执行sql
             stmt = conn.createStatement();
             stmt.execute(sql);
-
 
         }catch(SQLException se){
             // 处理 JDBC 错误
@@ -98,7 +97,9 @@ public class SqlConnection {
      */
     public static ResultSet getByUid(String _table,int _uid){
         String sql = "select * from " + _table + " where _uid = "+_uid;
-        return doSql(sql);
+        ResultSet rs = doSql(sql);
+        return rs;
+
     }
 
     /**

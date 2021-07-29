@@ -93,6 +93,7 @@ public class User {
         String sql="insert into _user(_uid,_username,_password,_banned,_experience,_health,_force,_permission,_count,_money) values("+uid+",'"+username+"','"+Config.OPERATING_CODE+"',0,0,128,16,1,0,0)";
         SqlConnection.doSqlNoResult(sql);
         User user = byUsername(username);
+        Backpack.createBackpack(user);
         return user;
     }
 

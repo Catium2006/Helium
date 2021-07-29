@@ -2,6 +2,7 @@ package cn.tonyn.helium;
 
 import cn.tonyn.helium.client.Client;
 import cn.tonyn.helium.client.ClientHandler;
+import cn.tonyn.helium.data.item.type.Item;
 import cn.tonyn.helium.mysql.SqlConnection;
 import cn.tonyn.helium.user.User;
 import cn.tonyn.log.Logger;
@@ -51,6 +52,8 @@ public class Helium {
         Config.MYSQLPASSWORD=jsonObject.getString("MySqlPassword");
 
         Logger.log("connecting to mysql server...");
+        SqlConnection.connect();
+
         //print some information
         System.out.println("=====Helimu=====\r\n" +
                 "v " + Config.VERSION + "\r\n" +
@@ -110,8 +113,6 @@ public class Helium {
      * ≤‚ ‘”√¥˙¬Î
      */
     static void test(){
-
-
 
     }
 

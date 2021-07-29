@@ -6,6 +6,7 @@
     <file url="file://$PROJECT_DIR$/src/main/java/cn/tonyn/helium/Helium.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/java/cn/tonyn/helium/client/Client.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/java/cn/tonyn/helium/client/ClientHandler.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/tonyn/helium/data/item/all/千元支票.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/java/cn/tonyn/helium/json/ClientInfo.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/java/cn/tonyn/log/Logger.java" charset="GBK" />
   </component>
