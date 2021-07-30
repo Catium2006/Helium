@@ -15,10 +15,13 @@ public class Item {
     public int 价值;
     public boolean 可以吃;
     public boolean 可以交易;
-    public boolean 可以武装;
-    public boolean 可以防御;
     public boolean 可以合成;
+    public boolean 可以装备;
+    public boolean 可以穿戴;
     public Item[] 配方表;
+    public int 合成数量=1;
+    public int 燃烧时间=-1;
+    public int 燃烧消耗=-1;
 
     public boolean equals(Item item){
         if(item.Code==Code){

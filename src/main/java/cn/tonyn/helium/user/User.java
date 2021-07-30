@@ -1,6 +1,9 @@
 package cn.tonyn.helium.user;
 
 import cn.tonyn.helium.Config;
+import cn.tonyn.helium.data.item.type.Item;
+import cn.tonyn.helium.data.item.type.衣服;
+import cn.tonyn.helium.data.item.type.装备;
 import cn.tonyn.helium.exceptions.WrongPasswordException;
 import cn.tonyn.helium.mysql.SqlConnection;
 import cn.tonyn.log.Logger;
@@ -18,6 +21,9 @@ public class User {
     int Health;
     int Force;
     int Permission;
+    int Luck;
+    衣服 Clothing;
+    装备 Equipment;
 
     /**
      * 发言总数
@@ -46,7 +52,16 @@ public class User {
                 user.Permission = rs.getInt("_permission");
                 user.Count = rs.getInt("_count");
                 user.Money = rs.getInt("_money");
+                user.Luck = rs.getInt("_luck");
+                user.Clothing = 衣服.byName(rs.getString("_clothing"));
+                user.Equipment = 装备.byName(rs.getString("_equipment"));
             }
+            user.Health=user.Health+user.Clothing.增加生命;
+            user.Force=user.Force+user.Clothing.增加力量;
+            user.Luck=user.Luck+user.Clothing.增加幸运;
+            user.Health=user.Health+user.Equipment.增加生命;
+            user.Force=user.Force+user.Equipment.增加力量;
+            user.Luck=user.Luck+user.Equipment.增加幸运;
         }catch (SQLException e){
             Logger.log(e.getMessage(),"SQLException");
             user=null;
@@ -74,7 +89,16 @@ public class User {
                 user.Permission = rs.getInt("_permission");
                 user.Count = rs.getInt("_count");
                 user.Money = rs.getInt("_money");
+                user.Luck = rs.getInt("_luck");
+                user.Clothing = 衣服.byName(rs.getString("_clothing"));
+                user.Equipment = 装备.byName(rs.getString("_equipment"));
             }
+            user.Health=user.Health+user.Clothing.增加生命;
+            user.Force=user.Force+user.Clothing.增加力量;
+            user.Luck=user.Luck+user.Clothing.增加幸运;
+            user.Health=user.Health+user.Equipment.增加生命;
+            user.Force=user.Force+user.Equipment.增加力量;
+            user.Luck=user.Luck+user.Equipment.增加幸运;
         }catch (SQLException e){
             Logger.log(e.getMessage(),"SQLException");
             user=null;
@@ -133,6 +157,16 @@ public class User {
     public int getMoney(){
         return Money;
     }
+
+    public Item getClothing(){
+        return Clothing;
+    }
+
+    public Item getEquipment(){
+        return Equipment;
+    }
+
+    public int getLuck(){return Luck;}
 
     public boolean isBaned(){
         return banned;
@@ -206,6 +240,18 @@ public class User {
     public void setMoney(int money){
         Money=money;
         String sql = "update _user set _money = '"+money+"' where _uid = "+Uid;
+        SqlConnection.doSqlNoResult(sql);
+    }
+
+    public void setClothing(衣服 item){
+        Clothing=item;
+        String sql = "update _user set _clothing = '"+Clothing.toString()+"' where _uid = "+Uid;
+        SqlConnection.doSqlNoResult(sql);
+    }
+
+    public void setEquipment(装备 item){
+        Equipment=item;
+        String sql = "update _user set _equipment = '"+Equipment.toString()+"' where _uid = "+Uid;
         SqlConnection.doSqlNoResult(sql);
     }
 

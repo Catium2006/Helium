@@ -10,7 +10,7 @@ public class 面包 extends 食物 {
         Code = 1;
         Name = "面包";
         价值=35;
-        恢复生命值=3;
+        恢复生命值=5;
         可以吃 = t;
         可以合成 = t;
         小麦 i = new 小麦();
