@@ -7,9 +7,10 @@
 说话多会长经验和钱  
 ## [指令列表](指令列表.md)
 ## [物品列表](物品列表.md)
+## [开发日志](devlopement.md)
 ## 接入服务器
 准备一个客户端,比如QQ机器人,然后写一个功能按照本项目的通讯协议转发消息到服务器  
-这里提供一个示范,[基于Mirai2.3.2的QQ机器人](http://www.tonyn.cn:10000/download/helium-mirai-client.jar),运行这个jar并配置机器人即可
+这里提供一个示范,[基于Mirai2.3.2的QQ机器人](http://www.tonyn.cn:10000/download/helium-mirai-client.jar) 运行这个jar并配置机器人即可,默认连接localhost上的Helium服务器
 
 ## 不好的地方
-我谔谔,物品类名全中文,成员变量也中文  
+我谔谔 大量使用中文
