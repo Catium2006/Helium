@@ -11,6 +11,7 @@ public class 原木 extends Item {
         价值=40;
         燃烧时间=20;
         燃烧消耗=10;
+        熔炼结果=Item.byName("炭");
 
     }
 }

@@ -1,5 +1,7 @@
 package cn.tonyn.helium.data.item.type;
 
+import static cn.tonyn.helium.client.ClientHandler.Endl;
+
 /**
  * 因为太懒所以就全点中文了
  */
@@ -22,7 +24,7 @@ public class Item {
     public int 合成数量=1;
     public int 燃烧时间=-1;
     public int 燃烧消耗=-1;
-
+    public Item 熔炼结果;
     public boolean equals(Item item){
         if(item.Code==Code){
             return true;
@@ -51,5 +53,32 @@ public class Item {
         return null;
     }
 
+    /**
+     * just byName() but shorter
+     * @param n
+     * @return
+     */
+    public static Item i(String n){
+        return byName(n);
+    }
+
+    public String getInfo(){
+        String s = Name+":"+信息+Endl+"价值:"+价值+Endl;
+        if(可以合成){
+            s=s+"配方表:";
+            for(Item i : 配方表){
+                s=s+i+",";
+            }
+        }
+        s=s+Endl;
+        if(燃烧时间>0){
+            s=s+"提供"+燃烧时间+"燃烧热量"+Endl;
+        }
+        if(燃烧消耗>0){
+            s=s+"熔炼消耗"+燃烧消耗+"热量"+Endl;
+        }
+
+        return s;
+    }
 
 }

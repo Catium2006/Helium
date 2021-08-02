@@ -10,6 +10,9 @@ public class 木斧 extends 装备 {
         信息="一种工具";
         可以交易=t;
         价值=40;
+        类型="伐木";
+        增加力量=5;
+        增加幸运=5;
         合成数量=4;
         可以合成=t;
         配方表=new Item[]{Item.byName("木板"),Item.byName("木板"),Item.byName("木板"),Item.byName("木棍"),Item.byName("木棍")};

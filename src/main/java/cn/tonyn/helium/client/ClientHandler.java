@@ -1,10 +1,8 @@
 package cn.tonyn.helium.client;
 
-import cn.tonyn.helium.data.Exploring;
-import cn.tonyn.helium.data.item.type.Item;
-import cn.tonyn.helium.data.item.type.装备;
-import cn.tonyn.helium.data.item.type.货币;
-import cn.tonyn.helium.data.item.type.食物;
+import cn.tonyn.helium.data.item.type.*;
+import cn.tonyn.helium.data.探索;
+import cn.tonyn.helium.data.采矿;
 import cn.tonyn.helium.mysql.SqlConnection;
 import cn.tonyn.helium.operation.InternalCommand;
 import cn.tonyn.helium.operation.Message;
@@ -57,7 +55,17 @@ public class ClientHandler {
             int uid = Integer.valueOf(msg_string[0]);
             String message = msg_string[1];
             User sender = User.byUid(uid);
+
+            //回复用的字符串
             String reply = "";
+
+            //变量和通配符
+            //我自己 me
+            message=message.replace("!m",sender.getUid()+"");
+            //随机用户 random user
+            message=message.replace("!ru",new Random().nextInt(SqlConnection.getLengthOf("_user"))+"");
+            //随机数 random number
+            message=message.replace("!rn",new Random().nextInt(1024)+"");
 
             if(!sender.isBaned()){
                 {//随机事件
@@ -83,11 +91,18 @@ public class ClientHandler {
                         sender.setHealth(sender.getHealth()+1024);
                     }
                 }
+
                 if(client.Content.startsWith(Message.GroupMessage)){
                     System.out.println("群消息:"+message);
                     sender.setCount(sender.getCount()+1);
                     sender.setExperience(sender.getExperience()+1);
-                    sender.setMoney(sender.getMoney()+1);
+                    if(OtherTools.randomBoolean(1,4)){
+                        sender.setMoney(sender.getMoney()+1);
+                    }
+                    if(OtherTools.randomBoolean(1,2)){
+                        sender.setHealth(sender.getHealth()-1);
+                    }
+
 
                     if(message.equals("*属性")){
                         reply = reply +
@@ -185,11 +200,11 @@ public class ClientHandler {
                                 if(number>0){
                                     Item[] items = item.配方表;
                                     boolean success=true;
+                                    String s="";
                                     for(int a=1;a<=number;a++){
                                         for(Item i:items){
                                             backpack_s.addItem(i,-1);
                                         }
-                                        String s="";
                                         for(Item i:items){
                                             int n=backpack_s.getNumberOf(i);
                                             if(n<0){
@@ -197,8 +212,9 @@ public class ClientHandler {
                                                 s="你缺少"+(-n)+"个"+i+Endl;
                                             }
                                         }
-                                        reply=reply+s;
+
                                     }
+                                    reply=reply+s;
                                     if(success){
                                         backpack_s.addItem(item,number*item.合成数量);
                                         backpack_s.update();
@@ -228,7 +244,7 @@ public class ClientHandler {
                                 int value=item.价值;
                                 if(number>=0){
                                     if(value*number<=sender.getMoney()){
-                                        sender.setMoney(sender.getMoney()-value);
+                                        sender.setMoney(sender.getMoney()-value*number);
                                         backpack_s.addItem(item,number);
                                         backpack_s.update();
                                         reply=reply+number+"个"+item+"已放入你的背包"+Endl;
@@ -286,6 +302,7 @@ public class ClientHandler {
                             if(sender.getMoney()>= coast){
                                 backpack_s.addItem(hb,number);
                                 backpack_s.update();
+                                sender.setMoney(sender.getMoney()-hb.价值*number);
                                 reply=reply+"兑换成功!共消费"+coast+"(税后)"+Endl;
 
                             }else{
@@ -380,13 +397,13 @@ public class ClientHandler {
                                         int count=0;
                                         for(Item i:items){
                                             if(level.equals("A")){
-                                                i= Exploring.A[new Random().nextInt(Exploring.A.length)];
+                                                i= 探索.A[new Random().nextInt(探索.A.length)];
                                             }
                                             if(level.equals("B")){
-                                                i= Exploring.B[new Random().nextInt(Exploring.B.length)];
+                                                i= 探索.B[new Random().nextInt(探索.B.length)];
                                             }
                                             if(level.equals("C")){
-                                                i= Exploring.C[new Random().nextInt(Exploring.C.length)];
+                                                i= 探索.C[new Random().nextInt(探索.C.length)];
                                             }
                                             items[count]=i;
                                             count++;
@@ -426,9 +443,10 @@ public class ClientHandler {
                         message=message.replace("*查看","");
                         Item thing = Item.byName(message);
                         if(thing!=null){
-                            reply=reply+thing+"的信息:"+thing.信息;
+                            reply=reply+thing.getInfo();
                         }
                     }
+
 
                     if(message.startsWith("*装备")){
                         String thing = message.replace("*装备","");
@@ -446,6 +464,133 @@ public class ClientHandler {
                         }else{
                             reply=reply+thing+"是什么?"+Endl;
                         }
+                    }
+
+
+                    if(message.startsWith("*穿")){
+                        String thing = message.replace("*穿","");
+                        if(Item.byName(thing)!=null){
+                            Backpack backpack_s=new Backpack(sender);
+                            if(backpack_s.getNumberOf(Item.byName(thing))>0){
+                                backpack_s.addItem(sender.getClothing(),1);
+                                sender.setClothing(衣服.byName(thing));
+                                backpack_s.addItem(sender.getClothing(),-1);
+                                backpack_s.update();
+                            }else {
+                                reply=reply+"你没有这种东西!"+Endl;
+                            }
+
+                        }else{
+                            reply=reply+thing+"是什么?"+Endl;
+                        }
+                    }
+
+                    if(message.startsWith("*熔炼 ")){
+                        Backpack backpack_s=new Backpack(sender);
+                        String[] all=message.split(" ");
+                        int number=Integer.parseInt(all[1]);
+                        String thing=all[2];
+                        Item item=Item.byName(thing);
+                        if(backpack_s.contains(Item.byName("熔炉"))){
+                            if(item!=null){
+                                if(item.燃烧消耗>=0){
+                                    ResultSet rs = SqlConnection.getByUid("熔炉",sender.getUid());
+                                    int time=-1;
+                                    try{
+                                        if(rs.next()){
+                                            time=rs.getInt("剩余热量");
+                                        }else{
+                                            reply=reply+"熔炉燃料不足"+Endl;
+                                        }
+                                    }catch (SQLException e){
+                                        Logger.log(e.getMessage(),"SQLException");
+                                    }
+                                    if(backpack_s.getNumberOf(item)>=number){
+                                        if(time>=(item.燃烧消耗*number)){
+                                            time=time-(item.燃烧消耗*number);
+                                            backpack_s.addItem(item.熔炼结果,number);
+                                            backpack_s.addItem(item,-number);
+                                            backpack_s.update();
+                                            sender.setExperience(sender.getExperience()+10*number);
+                                            String sql = "update 熔炉 set 剩余热量 = "+time+" where _uid = "+sender.getUid();
+                                            SqlConnection.doSqlNoResult(sql);
+                                            reply=reply+"熔炼成功,得到"+number+"个"+item.熔炼结果+Endl+"剩余热量:"+time;
+
+                                        }else {
+                                            reply=reply+"熔炉燃料不足"+Endl;
+                                        }
+                                    }else {
+                                        reply=reply+"你没有足够的材料"+Endl;
+                                    }
+                                }else {
+                                    reply=reply+"此物品不能熔炼"+Endl;
+                                }
+                            }else {
+                                reply=reply+thing+"是什么东西?";
+                            }
+                        }else{
+                            reply=reply+"你没有熔炉!"+Endl;
+                        }
+                    }
+
+                    if(message.startsWith("*添加燃料 ")){
+                        Backpack backpack_s=new Backpack(sender);
+                        String[] all=message.split(" ");
+                        int number=Integer.parseInt(all[1]);
+                        String thing=all[2];
+                        Item item=Item.byName(thing);
+                        if(backpack_s.contains(Item.byName("熔炉"))){
+                            if(item!=null){
+                                if(item.燃烧时间>=0){
+                                    if(backpack_s.getNumberOf(item)>=number){
+                                        int time = item.燃烧时间*number;
+                                        ResultSet rs = SqlConnection.getByUid("熔炉",sender.getUid());
+                                        try{
+                                            if(rs.next()){
+                                                time=time+rs.getInt("剩余热量");
+                                                String sql = "update 熔炉 set 剩余热量 = "+time+" where _uid = "+sender.getUid();
+                                                SqlConnection.doSqlNoResult(sql);
+                                            }else{
+                                                String sql = "insert into 熔炉(_uid,剩余热量) values("+sender.getUid()+","+time+")";
+                                                SqlConnection.doSqlNoResult(sql);
+                                            }
+                                        }catch (SQLException e){
+                                            Logger.log(e.getMessage(),"SQLException");
+                                        }
+                                        reply=reply+"添加成功,剩余热量:"+time+Endl;
+                                        backpack_s.addItem(item,-number);
+                                        backpack_s.update();
+                                    }else {
+                                        reply=reply+"你没有这么多这种东西"+Endl;
+                                    }
+                                }else{
+                                    reply=reply+"这不是一种燃料"+Endl;
+                                }
+                            }else {
+                                reply=reply+thing+"是什么东西?"+Endl;
+                            }
+                        }else{
+                            reply=reply+"你没有熔炉!"+Endl;
+                        }
+                    }
+
+                    if(message.startsWith("*采矿")){
+                        int luck=0;
+
+                        if(((装备)sender.getEquipment()).类型.equals("采矿")){
+                            luck=luck+((装备)sender.getEquipment()).增加幸运;
+                        }
+                        Item[] items=new Item[3];
+                        if(luck>=80){
+                            items[0]= 采矿.C[new Random().nextInt()];
+                        }
+                        if(luck>=40){
+                            items[1]= 采矿.B[new Random().nextInt()];
+                        }
+                        if(luck>=0){
+                            items[2]= 采矿.A[new Random().nextInt()];
+                        }
+                        reply=reply+"你开始采矿了,不一定需要多长时间";
                     }
 
 

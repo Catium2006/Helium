@@ -4,9 +4,11 @@ public class 装备 extends Item{
     public int 增加力量;
     public int 增加生命;
     public int 增加幸运;
+    public String 类型;
     public 装备(){
         可以装备=t;
         可以合成=t;
+        合成数量=1;
     }
     public static 装备 byName(String name){
         return (装备)Item.byName(name);

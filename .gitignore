@@ -3,9 +3,9 @@
 /out/
 # build files
 
-*.json
-*.jar
-/data/
+Config.json
+Helium.jar
+/data/*
 # test data file
 
 # Ignore Gradle GUI config
