@@ -2,11 +2,10 @@
 /build/
 /out/
 # build files
-
-Config.json
-Helium.jar
+*.json
+*.jar
 /data/*
-# test data file
+# test files
 
 # Ignore Gradle GUI config
 gradle-app.setting
