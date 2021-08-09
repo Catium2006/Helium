@@ -321,7 +321,7 @@ public class ClientHandler {
                         货币 hb = 货币.byName(thing);
                         int add=(int) (number*hb.价值-number*hb.兑换税率);
                         if(number>0){
-                            backpack_s.addItem(hb,-1);
+                            backpack_s.addItem(hb,-number);
                             backpack_s.update();
                             sender.setMoney(sender.getMoney()+add);
                             reply=reply+"兑换成功,"+add+"(税后)已加入你的账户";
@@ -572,6 +572,23 @@ public class ClientHandler {
                         }else{
                             reply=reply+"你没有熔炉!"+Endl;
                         }
+                    }
+
+                    if(message.equals("*总发言排行榜")){
+                        String sql = "select * from _user order by _count DESC";
+                        ResultSet rs = SqlConnection.doSql(sql);
+                        String s="UID    用户    总发言"+Endl;
+                        try{
+                            int i = 0;
+                            while(rs.next()&&i<10){
+                                i++;
+                                s=s+i+". "+rs.getInt("_uid")+"  "+rs.getString("_username")+"  "+rs.getInt("_count")+Endl;
+                            }
+                        }catch (SQLException e){
+                            Logger.log(e.getMessage(),"SQLException");
+                        }
+                        reply=reply+s;
+
                     }
 
                     if(message.startsWith("*采矿")){
