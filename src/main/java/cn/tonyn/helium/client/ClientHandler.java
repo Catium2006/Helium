@@ -67,6 +67,7 @@ public class ClientHandler {
             //随机数 random number
             message=message.replace("!rn",new Random().nextInt(1024)+"");
 
+
             if(!sender.isBaned()){
                 {//随机事件
                     if(OtherTools.randomBoolean(3,1000)){

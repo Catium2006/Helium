@@ -63,14 +63,14 @@ public class Item {
     }
 
     public String getInfo(){
-        String s = Name+":"+信息+Endl+"价值:"+价值+Endl;
+        String s = Name+":"+Endl+信息+Endl+"价值:"+价值+Endl;
         if(可以合成){
             s=s+"配方表:";
             for(Item i : 配方表){
                 s=s+i+",";
             }
+            s=s+Endl;
         }
-        s=s+Endl;
         if(燃烧时间>0){
             s=s+"提供"+燃烧时间+"燃烧热量"+Endl;
         }

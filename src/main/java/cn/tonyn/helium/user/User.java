@@ -158,11 +158,11 @@ public class User {
         return Money;
     }
 
-    public Item getClothing(){
+    public 衣服 getClothing(){
         return Clothing;
     }
 
-    public Item getEquipment(){
+    public 装备 getEquipment(){
         return Equipment;
     }
 
@@ -244,12 +244,14 @@ public class User {
     }
 
     public void setClothing(衣服 item){
+        setHealth(getHealth()-Clothing.增加生命+item.增加生命);
         Clothing=item;
         String sql = "update _user set _clothing = '"+Clothing.toString()+"' where _uid = "+Uid;
         SqlConnection.doSqlNoResult(sql);
     }
 
     public void setEquipment(装备 item){
+        setHealth(getHealth()-Equipment.增加生命+item.增加生命);
         Equipment=item;
         String sql = "update _user set _equipment = '"+Equipment.toString()+"' where _uid = "+Uid;
         SqlConnection.doSqlNoResult(sql);
